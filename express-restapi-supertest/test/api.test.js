@@ -18,4 +18,17 @@ describe("GET /users/:id", () => {
     expect("Content-Type", /json/);
     expect(200, done);
   });
+
+  it("respond with a json user not found when the user does not exists", (done) => {
+    request(app)
+      .get("/users/nonexistinguser")
+      .set("Accept", "application/json")
+      .expect("Content-Type", /json/)
+      .expect(404)
+      .expect('"user not found"')
+      .end((err) => {
+        if (err) return done(err);
+        done();
+      });
+  });
 });
